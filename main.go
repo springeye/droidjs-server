@@ -1,4 +1,29 @@
 package main
-func main(){
-	println("hello");
+
+import (
+	"github.com/springeye/droidjs-server/api"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+	r.GET("/qrcode", api.Create)
+	auth := api.SetupJwt(r)
+	{
+		device := auth.Group("/device")
+		{
+			device.GET("list", func(context *gin.Context) {
+
+			})
+		}
+	}
+
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
