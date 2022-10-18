@@ -118,7 +118,7 @@ func SetupJwt(r *gin.Engine) *gin.RouterGroup {
 		log.Fatal("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
 	}
 
-	r.POST("/login", authMiddleware.LoginHandler)
+	r.POST("/api/v1/public/login", authMiddleware.LoginHandler)
 
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
@@ -126,7 +126,7 @@ func SetupJwt(r *gin.Engine) *gin.RouterGroup {
 		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
 	})
 
-	auth := r.Group("/auth")
+	auth := r.Group("/api/v1/auth")
 	// Refresh time can be longer than token timeout
 	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
 	auth.Use(authMiddleware.MiddlewareFunc())

@@ -1,10 +1,9 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/springeye/droidjs-server/api"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -14,7 +13,20 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/qrcode", api.Create)
+	public := r.Group("/api/v1/public")
+	{
+		ws := public.Group("/ws")
+		{
+			hub := api.NewHub()
+			go hub.Run()
+			ws.GET("", func(context *gin.Context) {
+
+				api.ServeWs(hub, context.Writer, context.Request)
+
+			})
+		}
+	}
+	public.GET("/qrcode", api.Create)
 	auth := api.SetupJwt(r)
 	{
 		device := auth.Group("/device")
