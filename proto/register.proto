@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+package proto;
+//option go_package="github.com/springeye/droidjs-server/gen";
+option go_package="./proto";
+option java_package="com.github.springeye.droidjs.proto";
+option java_generate_equals_and_hash=true;
+option java_string_check_utf8=true;
+option java_outer_classname="ProtoMessage";
+option java_multiple_files=false;
+message EmptyResponse{
+  int32 code=1;
+  int32 message=2;
+}
+message RegisterRequest{
+  string username=1;
+  string password=2;
+  string email=3;
+}
+message LoginRequest{
+  string username=1;
+  string password=2;
+}

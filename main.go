@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/springeye/droidjs-server/api"
+	"github.com/springeye/droidjs-server/proto"
 	"net/http"
 )
 
@@ -27,6 +29,14 @@ func main() {
 		}
 	}
 	public.GET("/qrcode", api.Create)
+	public.POST("/register", func(context *gin.Context) {
+		req := proto.RegisterRequest{}
+		if err := context.Bind(&req); err == nil {
+			fmt.Printf("username:%s\n", req.Username)
+			fmt.Printf("password:%s\n", req.Password)
+		}
+
+	})
 	auth := api.SetupJwt(r)
 	{
 		device := auth.Group("/device")
