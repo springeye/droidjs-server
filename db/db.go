@@ -44,6 +44,7 @@ func Setup() {
 	dst = append(dst, new(User))
 	dst = append(dst, new(Token))
 	dst = append(dst, new(Device))
+	dst = append(dst, new(Script))
 	err = db.Migrator().DropTable(dst...)
 	if err != nil {
 		panic(err)

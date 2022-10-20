@@ -13,4 +13,5 @@ type User struct {
 	UnionID  string   `json:"unionid"`
 	Devices  []Device `json:"devices"`
 	Tokens   []Token  `json:"tokens"`
+	Scripts  []Script `json:"scripts"`
 }
